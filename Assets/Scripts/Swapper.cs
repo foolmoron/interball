@@ -10,15 +10,31 @@ public class Swapper : MonoBehaviour {
     public float LevelFlashInterval = 0.125f;
 
     ScoreManager scoreManager;
+    SpriteRenderer spriteRenderer;
+
+    Color originalColor;
+    public bool AnimatingHue;
+    public float AnimateHueSpeed = 1.5f;
+    [Range(0, 1)]
+    public float AnimateHueSaturation = 0.5f;
+    float currentHue;
 
 	void Start() {
 	    if (!Board) {
 	        Board = FindObjectOfType<Board>();
 	    }
 	    scoreManager = FindObjectOfType<ScoreManager>();
+	    spriteRenderer = GetComponent<SpriteRenderer>();
+	    originalColor = spriteRenderer.color;
 	}
 	
 	void Update() {
+	    if (AnimatingHue) {
+            currentHue = (currentHue + AnimateHueSpeed * Time.deltaTime) % 1f;
+            spriteRenderer.color = new HSBColor(currentHue, AnimateHueSaturation, 1, 1).ToColor();
+	    } else {
+	        spriteRenderer.color = originalColor;
+	    }
 	}
 
     void OnTriggerEnter2D(Collider2D other) {
@@ -32,6 +48,8 @@ public class Swapper : MonoBehaviour {
 
     IEnumerator SwapLevelAnimation(Ball ball, int levelFlashCount, float levelFlashInterval) {
         ball.Stop();
+        AnimatingHue = true;
+
         var newBallPosition = transform.position;
         newBallPosition.z = ball.transform.position.z;
         ball.transform.position = newBallPosition;
@@ -58,6 +76,7 @@ public class Swapper : MonoBehaviour {
         Board.InactiveLevels.Add(activeLevelToSwapOut);
 
         scoreManager.WorldsEncountered++;
+        AnimatingHue = false;
         ball.Move();
     }
 }
