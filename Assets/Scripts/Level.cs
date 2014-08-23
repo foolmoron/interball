@@ -4,6 +4,7 @@ using System.Collections;
 [ExecuteInEditMode]
 public class Level : MonoBehaviour {
 
+    [Range(0, 1)]
     public float LevelAlpha = 0.25f;
     public Color LevelColor;
     Color oldLevelColor = Color.clear;
