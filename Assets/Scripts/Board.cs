@@ -6,28 +6,28 @@ public class Board : MonoBehaviour {
 
     public string[] LevelsToLoad;
 
-    Level[] levels;
-    List<Level> activeLevels;
-    List<Level> inactiveLevels;
+    public Level[] Levels { get; private set; }
+    public Level[] ActiveLevels { get; private set; }
+    public List<Level> InactiveLevels { get; private set; }
 
     void Start() {
         StartCoroutine(LoadAllLevels(LevelsToLoad));
     }
 
     void InitializeBoard() {
-        if (levels.Length < 4)
+        if (Levels.Length < 4)
             Debug.LogError("Need at least 4 levels to make game work!");
 
-        inactiveLevels = new List<Level>(levels);
-        activeLevels = new List<Level>();
+        InactiveLevels = new List<Level>(Levels);
+        ActiveLevels = new Level[4];
         for (int i = 0; i < 4; i++) {
-            var randomIndex = Mathf.FloorToInt(Random.value * inactiveLevels.Count);
-            var level = inactiveLevels[randomIndex];
+            var randomIndex = Mathf.FloorToInt(Random.value * InactiveLevels.Count);
+            var level = InactiveLevels[randomIndex];
             level.gameObject.SetActive(true);
             level.LevelColor = new Color(Random.value, Random.value, Random.value);
             level.transform.localRotation = Quaternion.Euler(0, 0, 90 * i);
-            activeLevels.Add(level);
-            inactiveLevels.RemoveAt(randomIndex);
+            ActiveLevels[i] = level;
+            InactiveLevels.RemoveAt(randomIndex);
         }
     }
 
@@ -38,10 +38,10 @@ public class Board : MonoBehaviour {
         }
         yield return new WaitForEndOfFrame(); // wait until next frame for levels to be initialized
 
-        levels = FindObjectsOfType<Level>();
-        for (int i = 0; i < levels.Length; i++) {
-            levels[i].transform.parent = transform;
-            levels[i].gameObject.SetActive(false);
+        Levels = FindObjectsOfType<Level>();
+        for (int i = 0; i < Levels.Length; i++) {
+            Levels[i].transform.parent = transform;
+            Levels[i].gameObject.SetActive(false);
         }
         InitializeBoard();
     }
