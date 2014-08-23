@@ -20,6 +20,10 @@ public class Board : MonoBehaviour {
         if (canStartGame && Input.GetMouseButtonDown(0)) { // wait until player grabs board to start game
             FindObjectOfType<TimeManager>().CountingDown = true;
             FindObjectOfType<Ball>().Move();
+            var arrows = FindObjectsOfType<IntroArrow>();
+            for (int i = 0; i < arrows.Length; i++) {
+                Destroy(arrows[i].gameObject);
+            }
             canStartGame = false;
         }
     }
