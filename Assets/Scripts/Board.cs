@@ -10,8 +10,18 @@ public class Board : MonoBehaviour {
     public Level[] ActiveLevels { get; private set; }
     public List<Level> InactiveLevels { get; private set; }
 
+    bool canStartGame;
+
     void Start() {
         StartCoroutine(LoadAllLevels(LevelsToLoad));
+    }
+
+    void Update() {
+        if (canStartGame && Input.GetMouseButtonDown(0)) { // wait until player grabs board to start game
+            FindObjectOfType<TimeManager>().CountingDown = true;
+            FindObjectOfType<Ball>().Move();
+            canStartGame = false;
+        }
     }
 
     void InitializeBoard() {
@@ -24,11 +34,15 @@ public class Board : MonoBehaviour {
             var randomIndex = Mathf.FloorToInt(Random.value * InactiveLevels.Count);
             var level = InactiveLevels[randomIndex];
             level.gameObject.SetActive(true);
-            level.LevelColor = new Color(Random.value, Random.value, Random.value);
+            level.Reset();
             level.transform.localRotation = Quaternion.Euler(0, 0, 90 * i);
             ActiveLevels[i] = level;
             InactiveLevels.RemoveAt(randomIndex);
         }
+
+        canStartGame = true;
+        GetComponent<Rotatable>().RotationEnabled = true;
+        FindObjectOfType<TimeMeter>().StartIntro();
     }
 
     IEnumerator LoadAllLevels(string[] sceneNames) {
@@ -45,7 +59,4 @@ public class Board : MonoBehaviour {
         }
         InitializeBoard();
     }
-	
-	void Update() {
-	}
 }

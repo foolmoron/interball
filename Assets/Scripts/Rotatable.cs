@@ -8,6 +8,7 @@ public class Rotatable : MonoBehaviour {
 
     [Range(1f, 20f)]
     public float MaxRotationPerFrame = 10f;
+    public bool RotationEnabled;
 	public bool Rotating {get; private set;}
     float previousAngle;
 
@@ -17,6 +18,9 @@ public class Rotatable : MonoBehaviour {
 	}
 
 	void Update() {
+	    if (!RotationEnabled)
+	        return;
+
 		if (Input.GetMouseButtonDown(0)) {
             Rotating = true;
             var mouseNormalized = (camera.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;

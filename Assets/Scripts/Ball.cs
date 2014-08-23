@@ -12,7 +12,6 @@ public class Ball : MonoBehaviour {
     void Start() {
         spawnPosition = transform.position;
         Reset();
-        Move();
     }
 
     void Update() {
@@ -33,7 +32,7 @@ public class Ball : MonoBehaviour {
 
     public void Move() {
         SetSpeed(Speed);
-        SetDirectionVector(new Vector2(Random.value, Random.value));
+        SetDirectionVector(new Vector2(Random.value - 0.5f, Random.value - 0.5f));
     }
 
     public void SetSpeed(float speed) {

@@ -11,11 +11,23 @@ public class Level : MonoBehaviour {
 
 	void Start() {
 	}
+
+    public void Reset() {
+        gameObject.SetActive(true); // required to get components in children
+        LevelColor = new Color(Random.value, Random.value, Random.value);
+        var allOrbs = GetComponentsInChildren<TimeOrb>();
+        for (int i = 0; i < allOrbs.Length; i++) {
+            allOrbs[i].Reset();
+        }
+    }
 	
 	void Update() {
 	    if (LevelColor != oldLevelColor) {
 	        var allSprites = GetComponentsInChildren<SpriteRenderer>();
 	        for (int i = 0; i < allSprites.Length; i++) {
+	            if (allSprites[i].GetComponent<StaticColor>()) // totally ignore sprites with this component on them
+	                continue;
+
                 allSprites[i].color = LevelColor.withAlpha(LevelAlpha);
 	        }
 

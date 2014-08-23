@@ -21,7 +21,9 @@ public class Swapper : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         var ball = other.gameObject.GetComponent<Ball>();
         if (ball) {
-            StartCoroutine(SwapLevelAnimation(ball, LevelFlashCount, LevelFlashInterval));
+            if (Board.ActiveLevels != null) {
+                StartCoroutine(SwapLevelAnimation(ball, LevelFlashCount, LevelFlashInterval));
+            }
         }
     }
 
@@ -36,7 +38,7 @@ public class Swapper : MonoBehaviour {
 
         var inactiveLevelIndex = Mathf.FloorToInt(Random.value * Board.InactiveLevels.Count);
         var inactiveLevelToSwapIn = Board.InactiveLevels[inactiveLevelIndex];
-        inactiveLevelToSwapIn.LevelColor = new Color(Random.value, Random.value, Random.value);
+        inactiveLevelToSwapIn.Reset();
         inactiveLevelToSwapIn.transform.localRotation = Quaternion.Euler(0, 0, 90 * activeLevelIndex);
 
         for (int i = 0; i < levelFlashCount; i++) {
