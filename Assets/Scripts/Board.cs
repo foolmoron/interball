@@ -19,6 +19,7 @@ public class Board : MonoBehaviour {
     void Update() {
         if (canStartGame && Input.GetMouseButtonDown(0)) { // wait until player grabs board to start game
             FindObjectOfType<TimeManager>().CountingDown = true;
+            FindObjectOfType<ScoreManager>().CountingTime = true;
             FindObjectOfType<Ball>().Move();
             var arrows = FindObjectsOfType<IntroArrow>();
             for (int i = 0; i < arrows.Length; i++) {
@@ -47,6 +48,7 @@ public class Board : MonoBehaviour {
         canStartGame = true;
         GetComponent<Rotatable>().RotationEnabled = true;
         FindObjectOfType<TimeMeter>().StartIntro();
+        FindObjectOfType<ScoreManager>().WorldsEncountered = 4;
     }
 
     IEnumerator LoadAllLevels(string[] sceneNames) {

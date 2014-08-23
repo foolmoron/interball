@@ -9,10 +9,13 @@ public class Swapper : MonoBehaviour {
     [Range(0.01f, 1f)]
     public float LevelFlashInterval = 0.125f;
 
+    ScoreManager scoreManager;
+
 	void Start() {
 	    if (!Board) {
 	        Board = FindObjectOfType<Board>();
 	    }
+	    scoreManager = FindObjectOfType<ScoreManager>();
 	}
 	
 	void Update() {
@@ -54,6 +57,7 @@ public class Swapper : MonoBehaviour {
         Board.InactiveLevels.RemoveAt(inactiveLevelIndex);
         Board.InactiveLevels.Add(activeLevelToSwapOut);
 
+        scoreManager.WorldsEncountered++;
         ball.Move();
     }
 }
