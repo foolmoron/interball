@@ -27,6 +27,7 @@ public class EndingAnimation : MonoBehaviour {
     string originalHighscoreText;
 
     public void Initialize() {
+        FindObjectOfType<Rotatable>().RotationEnabled = false;
         audioManager.PlayGameOverSound();
         scoreManager.SaveScores();
 
@@ -100,6 +101,7 @@ public class EndingAnimation : MonoBehaviour {
         gameObject.SetActive(false);
         timeMeter.enabled = true;
         timeMeter.gameObject.SetActive(true);
+        FindObjectOfType<Rotatable>().RotationEnabled = true;
         FindObjectOfType<TimeMeter>().StartIntro();
     }
 }
