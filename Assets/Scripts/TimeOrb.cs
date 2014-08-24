@@ -5,11 +5,13 @@ using System.Collections;
 public class TimeOrb : MonoBehaviour {
 
     TimeManager timeManager;
+    TimeMeter timeMeter;
     [Range(0, 10)]
     public float TimeBonus = 1f;
 
-	void Start() {
-	    timeManager = FindObjectOfType<TimeManager>();
+    void Start() {
+        timeManager = FindObjectOfType<TimeManager>();
+        timeMeter = FindObjectOfType<TimeMeter>();
 	    Reset();
 	}
 
@@ -20,6 +22,7 @@ public class TimeOrb : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other) {
         timeManager.CurrentTimeLeft += TimeBonus;
+        timeMeter.Flash();
         renderer.enabled = false;
         collider2D.enabled = false;
     }
