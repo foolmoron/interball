@@ -34,8 +34,8 @@ public class Board : MonoBehaviour {
     }
 
     public void InitializeBoard() {
-        if (Levels.Length < 4)
-            Debug.LogError("Need at least 4 levels to make game work!");
+        if (Levels.Length < 5)
+            Debug.LogError("Need at least 5 levels to make game work!");
 
         GameStarted = false;
         transform.localRotation = Quaternion.Euler(0, 0, 0);
