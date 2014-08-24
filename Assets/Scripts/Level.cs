@@ -19,6 +19,10 @@ public class Level : MonoBehaviour {
         for (int i = 0; i < allOrbs.Length; i++) {
             allOrbs[i].Reset();
         }
+        var allBumpersGhosts = GetComponentsInChildren<BumperGhost>();
+        for (int i = 0; i < allBumpersGhosts.Length; i++) {
+            Destroy(allBumpersGhosts[i].gameObject);
+        }
     }
 	
 	void Update() {

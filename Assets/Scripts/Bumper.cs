@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Bumper : MonoBehaviour {
 
@@ -8,6 +9,13 @@ public class Bumper : MonoBehaviour {
 
     [Range(0, 360)]
     public float DirectionOffset = 0;
+
+    [Range(0.01f, 5f)]
+    public float GhostDuration = 0.25f;
+    [Range(0f, 3f)]
+    public float GhostMaxExtraScale = 0.5f;
+    [Range(0f, 1f)]
+    public float GhostOriginalAlpha = 0.2f;
 
     FrameShake frameShake;
 
@@ -33,6 +41,15 @@ public class Bumper : MonoBehaviour {
             if (frameShake.ShakesRemaining < 2) { // queue up 1 extra shake at most
                 frameShake.ShakesRemaining++;
             }
+
+            var newBumper = ((GameObject)Instantiate(gameObject, transform.position, transform.rotation));
+            newBumper.transform.parent = transform.parent;
+            Destroy(newBumper.collider2D);
+            Destroy(newBumper.GetComponent<Bumper>());
+            var bumperGhost = newBumper.AddComponent<BumperGhost>();
+            bumperGhost.GhostDuration = GhostDuration;
+            bumperGhost.GhostMaxExtraScale = GhostMaxExtraScale;
+            bumperGhost.GhostOriginalAlpha = GhostOriginalAlpha;
         }
     }
 
