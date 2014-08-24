@@ -5,7 +5,7 @@ public class FrameShake : MonoBehaviour {
 
     [Range(0, 100)]
     public int ShakesRemaining;
-    [Range(0, 1)]
+    [Range(0, 0.25f)]
     public float Strength = 0.05f;
     [Range(1, 10)]
     public int FrameInterval = 1;
