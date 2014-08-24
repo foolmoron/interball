@@ -37,17 +37,9 @@ public class EndingAnimation : MonoBehaviour {
         finalHighscoreText = finalHighscoreText.Replace("%t", PlayerPrefs.GetFloat("hightime", 0).ToString("0.00"));
         finalHighscoreText = finalHighscoreText.Replace("%w", PlayerPrefs.GetInt("highworlds", 0).ToString("0"));
         HighscoreText.text = finalHighscoreText;
-        {
-            var newColor = ScoreText.color;
-            newColor.a = 0;
-            ScoreText.color = newColor;
-            HighscoreText.color = newColor;
-        }
-        {
-            var newColor = RetryText.color;
-            newColor.a = 0;
-            RetryText.color = newColor;
-        }
+        ScoreText.color = ScoreText.color.withAlpha(0);
+        HighscoreText.color = HighscoreText.color.withAlpha(0);
+        RetryText.color = RetryText.color.withAlpha(0);
         StartCoroutine(AnimateBlackness());
     }
 
@@ -66,68 +58,45 @@ public class EndingAnimation : MonoBehaviour {
             Blackness.fillAmount += Time.deltaTime / BlacknessDuration;
             yield return new WaitForEndOfFrame();
         }
-        {
-            Blackness.fillAmount = 1;
-            timeMeter.enabled = false;
-            timeMeter.gameObject.SetActive(false);
-            FindObjectOfType<Ball>().Reset();
-            StartCoroutine(AnimateScoreText());
-        }
+        Blackness.fillAmount = 1;
+        timeMeter.enabled = false;
+        timeMeter.gameObject.SetActive(false);
+        FindObjectOfType<Ball>().Reset();
+        StartCoroutine(AnimateScoreText());
     }
 
     IEnumerator AnimateScoreText() {
         while (ScoreText.color.a < 1) {
-            var newColor = ScoreText.color;
-            newColor.a += Time.deltaTime / ScoreTextDuration;
-            ScoreText.color = newColor;
-            HighscoreText.color = newColor;
+            ScoreText.color = ScoreText.color.withAlpha(ScoreText.color.a + Time.deltaTime / ScoreTextDuration);
+            HighscoreText.color = HighscoreText.color.withAlpha(HighscoreText.color.a + Time.deltaTime / ScoreTextDuration);
             yield return new WaitForEndOfFrame();
         }
-        {
-            var newColor = ScoreText.color;
-            newColor.a = 1;
-            ScoreText.color = newColor;
-            StartCoroutine(AnimateRetryText());
-        }
+        ScoreText.color = ScoreText.color.withAlpha(1);
+        StartCoroutine(AnimateRetryText());
     }
 
     IEnumerator AnimateRetryText() {
         canRetry = true;
         while (RetryText.color.a < 1) {
-            var newColor = RetryText.color;
-            newColor.a += Time.deltaTime / RetryTextDuration;
-            RetryText.color = newColor;
+            RetryText.color = RetryText.color.withAlpha(RetryText.color.a + Time.deltaTime / RetryTextDuration);
             yield return new WaitForEndOfFrame();
         }
-        {
-            var newColor = RetryText.color;
-            newColor.a = 1;
-            RetryText.color = newColor;
-        }
+        RetryText.color = RetryText.color.withAlpha(1);
     }
 
     IEnumerator AnimateBlacknessOut() {
-        {
-            var newColor = ScoreText.color;
-            newColor.a = 0;
-            ScoreText.color = newColor;
-        }
-        {
-            var newColor = RetryText.color;
-            newColor.a = 0;
-            RetryText.color = newColor;
-        }
+        ScoreText.color = ScoreText.color.withAlpha(0);
+        HighscoreText.color = HighscoreText.color.withAlpha(0);
+        RetryText.color = RetryText.color.withAlpha(0);
         Blackness.fillClockwise = true;
         while (Blackness.fillAmount > 0) {
             Blackness.fillAmount -= Time.deltaTime / BlacknessDuration;
             yield return new WaitForEndOfFrame();
         }
-        {
-            Blackness.fillAmount = 0;
-            gameObject.SetActive(false);
-            timeMeter.enabled = true;
-            timeMeter.gameObject.SetActive(true);
-            FindObjectOfType<TimeMeter>().StartIntro();
-        }
+        Blackness.fillAmount = 0;
+        gameObject.SetActive(false);
+        timeMeter.enabled = true;
+        timeMeter.gameObject.SetActive(true);
+        FindObjectOfType<TimeMeter>().StartIntro();
     }
 }
