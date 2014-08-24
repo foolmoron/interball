@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class TimeMeter : MonoBehaviour {
@@ -18,7 +17,8 @@ public class TimeMeter : MonoBehaviour {
 
     [Range(0.1f, 10f)]
     public float IntroDuration = 3f;
-    bool introAnimating = true;
+    float introTime;
+    bool introAnimating;
 
 	void Start() {
 	    timeManager = FindObjectOfType<TimeManager>();
@@ -26,26 +26,23 @@ public class TimeMeter : MonoBehaviour {
 	}
 
     public void StartIntro() {
-        StartCoroutine(IntroAnimation());
+        introAnimating = true;
+        introTime = 0f;
     }
 
     void Update() {
-        if (!introAnimating) {
+        if (!introAnimating && timeManager.CurrentTimePercentage > 0) {
             image.fillAmount = timeManager.CurrentTimePercentage;
             image.color = new HSBColor(Mathf.Lerp(MinHue, MaxHue, timeManager.CurrentTimePercentage), Saturation, Brightness, 1).ToColor();
-        }
-    }
-
-    IEnumerator IntroAnimation() { 
-        var introPercentage = 0f;
-        var introTime = 0f;
-        while (introPercentage < timeManager.CurrentTimePercentage && introPercentage < 1) {
+        } else {
             introTime += Time.deltaTime;
-            introPercentage = introTime / IntroDuration;
-            image.fillAmount = introPercentage;
-            image.color = new HSBColor(Mathf.Lerp(MinHue, MaxHue, introPercentage), Saturation, Brightness, 1).ToColor();
-            yield return new WaitForEndOfFrame();
+            var introPercentage = introTime / IntroDuration;
+            if (introPercentage < timeManager.CurrentTimePercentage && introPercentage < 1) {
+                image.fillAmount = introPercentage;
+                image.color = new HSBColor(Mathf.Lerp(MinHue, MaxHue, introPercentage), Saturation, Brightness, 1).ToColor();
+            } else {
+                introAnimating = false;
+            }
         }
-        introAnimating = false;
     }
 }

@@ -40,7 +40,7 @@ public class Swapper : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         var ball = other.gameObject.GetComponent<Ball>();
         if (ball) {
-            if (Board.ActiveLevels != null) {
+            if (Board.GameStarted) {
                 StartCoroutine(SwapLevelAnimation(ball, LevelFlashCount, LevelFlashInterval));
             }
         }
@@ -77,6 +77,8 @@ public class Swapper : MonoBehaviour {
 
         scoreManager.WorldsEncountered++;
         AnimatingHue = false;
-        ball.Move();
+        if (Board.GameStarted) {
+            ball.Move();
+        }
     }
 }

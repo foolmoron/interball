@@ -7,13 +7,19 @@ public class TimeManager : MonoBehaviour {
     public float MaxTimeLeft = 20f;
     [Range(0, 100)]
     public float CurrentTimeLeft;
-    public bool CountingDown = true;
+    public bool CountingDown;
+    public EndingAnimation EndingAnimation;
 
     public float CurrentTimePercentage { get { return CurrentTimeLeft / MaxTimeLeft; } }
     
 	void Start() {
-	    CurrentTimeLeft = MaxTimeLeft;
+        Reset();
 	}
+
+    public void Reset() {
+        CurrentTimeLeft = MaxTimeLeft;
+        CountingDown = false;
+    }
 	
 	void Update() {
 	    if (CountingDown) {
@@ -32,6 +38,7 @@ public class TimeManager : MonoBehaviour {
 	}
 
     void GameOver() {
-        
+        EndingAnimation.gameObject.SetActive(true);
+        EndingAnimation.Initialize();
     }
 }

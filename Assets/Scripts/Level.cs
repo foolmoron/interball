@@ -14,7 +14,7 @@ public class Level : MonoBehaviour {
 
     public void Reset() {
         gameObject.SetActive(true); // required to get components in children
-        LevelColor = new Color(Random.value, Random.value, Random.value);
+        LevelColor = new HSBColor(Random.value, 1, 0.784f, 1).ToColor(); // 0.784f is the value that allows all hues to be visible with white dots
         var allOrbs = GetComponentsInChildren<TimeOrb>();
         for (int i = 0; i < allOrbs.Length; i++) {
             allOrbs[i].Reset();

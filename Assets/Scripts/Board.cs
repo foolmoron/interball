@@ -11,8 +11,12 @@ public class Board : MonoBehaviour {
     public List<Level> InactiveLevels { get; private set; }
 
     bool canStartGame;
+    public bool GameStarted;
+
+    IntroArrow[] introArrows;
 
     void Start() {
+        introArrows = FindObjectsOfType<IntroArrow>();
         StartCoroutine(LoadAllLevels(LevelsToLoad));
     }
 
@@ -21,17 +25,23 @@ public class Board : MonoBehaviour {
             FindObjectOfType<TimeManager>().CountingDown = true;
             FindObjectOfType<ScoreManager>().CountingTime = true;
             FindObjectOfType<Ball>().Move();
-            var arrows = FindObjectsOfType<IntroArrow>();
-            for (int i = 0; i < arrows.Length; i++) {
-                Destroy(arrows[i].gameObject);
+            for (int i = 0; i < introArrows.Length; i++) {
+                introArrows[i].gameObject.SetActive(false);
             }
             canStartGame = false;
+            GameStarted = true;
         }
     }
 
-    void InitializeBoard() {
+    public void InitializeBoard() {
         if (Levels.Length < 4)
             Debug.LogError("Need at least 4 levels to make game work!");
+
+        GameStarted = false;
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
+        for (int i = 0; i < Levels.Length; i++) {
+            Levels[i].gameObject.SetActive(false);
+        }
 
         InactiveLevels = new List<Level>(Levels);
         ActiveLevels = new Level[4];
@@ -47,7 +57,12 @@ public class Board : MonoBehaviour {
 
         canStartGame = true;
         GetComponent<Rotatable>().RotationEnabled = true;
-        FindObjectOfType<TimeMeter>().StartIntro();
+        FindObjectOfType<Ball>().Reset();
+        for (int i = 0; i < introArrows.Length; i++) {
+            introArrows[i].gameObject.SetActive(true);
+        }
+        FindObjectOfType<TimeManager>().Reset();
+        FindObjectOfType<ScoreManager>().Reset();
         FindObjectOfType<ScoreManager>().WorldsEncountered = 4;
     }
 
@@ -56,6 +71,8 @@ public class Board : MonoBehaviour {
             var sceneName = sceneNames[i];
             Application.LoadLevelAdditive(sceneName);
         }
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame(); // wait until next frame for levels to be initialized
 
         Levels = FindObjectsOfType<Level>();
@@ -64,5 +81,9 @@ public class Board : MonoBehaviour {
             Levels[i].gameObject.SetActive(false);
         }
         InitializeBoard();
+        
+        yield return new WaitForEndOfFrame(); // eat up a few of the slow initialization frames
+        yield return new WaitForEndOfFrame();
+        FindObjectOfType<TimeMeter>().StartIntro();
     }
 }
