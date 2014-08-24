@@ -7,6 +7,8 @@ public class EndingAnimation : MonoBehaviour {
     public AudioManager audioManager;
     public ScoreManager scoreManager;
     public TimeMeter timeMeter;
+    public Board board;
+    public Rotatable rotatable;
     public Ball ball;
 
     public UnityEngine.UI.Image Blackness;
@@ -27,7 +29,8 @@ public class EndingAnimation : MonoBehaviour {
     string originalHighscoreText;
 
     public void Initialize() {
-        FindObjectOfType<Rotatable>().RotationEnabled = false;
+        rotatable.RotationEnabled = false;
+        board.GameStarted = false;
         audioManager.PlayGameOverSound();
         scoreManager.SaveScores();
 
@@ -52,7 +55,7 @@ public class EndingAnimation : MonoBehaviour {
             ball.Reset();
         if (canRetry && Input.GetMouseButtonDown(0)) {
             canRetry = false;
-            FindObjectOfType<Board>().InitializeBoard();
+            board.InitializeBoard();
             StartCoroutine(AnimateBlacknessOut());
         }
     }
@@ -65,7 +68,7 @@ public class EndingAnimation : MonoBehaviour {
         Blackness.fillAmount = 1;
         timeMeter.enabled = false;
         timeMeter.gameObject.SetActive(false);
-        FindObjectOfType<Ball>().Reset();
+        ball.Reset();
         StartCoroutine(AnimateScoreText());
     }
 
@@ -101,7 +104,8 @@ public class EndingAnimation : MonoBehaviour {
         gameObject.SetActive(false);
         timeMeter.enabled = true;
         timeMeter.gameObject.SetActive(true);
-        FindObjectOfType<Rotatable>().RotationEnabled = true;
-        FindObjectOfType<TimeMeter>().StartIntro();
+        rotatable.RotationEnabled = true;
+        board.GameStarted = true;
+        timeMeter.StartIntro();
     }
 }

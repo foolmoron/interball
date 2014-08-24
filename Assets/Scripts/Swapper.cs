@@ -9,6 +9,7 @@ public class Swapper : MonoBehaviour {
     [Range(0.01f, 1f)]
     public float LevelFlashInterval = 0.125f;
 
+    AudioManager audioManager;
     ScoreManager scoreManager;
     SpriteRenderer spriteRenderer;
 
@@ -22,8 +23,9 @@ public class Swapper : MonoBehaviour {
 	void Start() {
 	    if (!Board) {
 	        Board = FindObjectOfType<Board>();
-	    }
-	    scoreManager = FindObjectOfType<ScoreManager>();
+        }
+        audioManager = FindObjectOfType<AudioManager>();
+        scoreManager = FindObjectOfType<ScoreManager>();
 	    spriteRenderer = GetComponent<SpriteRenderer>();
 	    originalColor = spriteRenderer.color;
 	}
@@ -49,6 +51,7 @@ public class Swapper : MonoBehaviour {
     IEnumerator SwapLevelAnimation(Ball ball, int levelFlashCount, float levelFlashInterval) {
         ball.Stop();
         AnimatingHue = true;
+        audioManager.PlaySwapperSound();;
 
         var newBallPosition = transform.position;
         newBallPosition.z = ball.transform.position.z;

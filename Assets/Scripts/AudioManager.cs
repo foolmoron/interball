@@ -5,7 +5,7 @@ public class AudioManager : MonoBehaviour {
 
     public AudioClip[] BumperSounds;
     public AudioClip GameOverSound;
-    public AudioClip[] BackgroundElements;
+    public AudioClip SwapperSound;
 
     bool canPlayBumperSound;
 
@@ -18,6 +18,10 @@ public class AudioManager : MonoBehaviour {
 
     public void PlayGameOverSound() {
         AudioSource.PlayClipAtPoint(GameOverSound, Vector3.zero);
+    }
+
+    public void PlaySwapperSound() {
+        AudioSource.PlayClipAtPoint(SwapperSound, Vector3.zero);
     }
 
     void Update() {
