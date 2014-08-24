@@ -20,10 +20,12 @@ public class EndingAnimation : MonoBehaviour {
     string originalScoreText;
     ScoreManager scoreManager;
     TimeMeter timeMeter;
+    Ball ball;
 
     public void Initialize() {
         scoreManager = FindObjectOfType<ScoreManager>();
         timeMeter = FindObjectOfType<TimeMeter>();
+        ball = FindObjectOfType<Ball>();
 
         Blackness.fillClockwise = false;
         Blackness.fillAmount = 0;
@@ -50,6 +52,8 @@ public class EndingAnimation : MonoBehaviour {
     }
 
     void Update() {
+        if (ball.rigidbody2D.velocity != Vector2.zero)
+            ball.Reset();
         if (canRetry && Input.GetMouseButtonDown(0)) {
             canRetry = false;
             FindObjectOfType<Board>().InitializeBoard();
