@@ -4,6 +4,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class EndingAnimation : MonoBehaviour {
 
+    public AudioManager audioManager;
     public ScoreManager scoreManager;
     public TimeMeter timeMeter;
     public Ball ball;
@@ -26,9 +27,11 @@ public class EndingAnimation : MonoBehaviour {
     string originalHighscoreText;
 
     public void Initialize() {
+        audioManager.PlayGameOverSound();
+        scoreManager.SaveScores();
+
         Blackness.fillClockwise = false;
         Blackness.fillAmount = 0;
-        scoreManager.SaveScores();
         var finalScoreText = originalScoreText ?? (originalScoreText = ScoreText.text);
         finalScoreText = finalScoreText.Replace("%t", scoreManager.TimeAlive.ToString("0.00"));
         finalScoreText = finalScoreText.Replace("%w", scoreManager.WorldsEncountered.ToString("0"));

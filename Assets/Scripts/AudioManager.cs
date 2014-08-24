@@ -16,6 +16,10 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
+    public void PlayGameOverSound() {
+        AudioSource.PlayClipAtPoint(GameOverSound, Vector3.zero);
+    }
+
     void Update() {
         canPlayBumperSound = true;
     }
