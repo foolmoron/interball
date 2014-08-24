@@ -18,4 +18,9 @@ public class ScoreManager : MonoBehaviour {
             TimeAlive += Time.deltaTime;
         }
     }
+
+    public void SaveScores() {
+        PlayerPrefs.SetFloat("hightime", Mathf.Max(TimeAlive, PlayerPrefs.GetFloat("hightime", 0)));
+        PlayerPrefs.SetInt("highworlds", Mathf.Max(WorldsEncountered, PlayerPrefs.GetInt("highworlds", 0)));
+    }
 }

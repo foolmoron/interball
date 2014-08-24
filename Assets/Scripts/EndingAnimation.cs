@@ -13,6 +13,7 @@ public class EndingAnimation : MonoBehaviour {
     public float BlacknessDuration = 0.5f;
 
     public UnityEngine.UI.Text ScoreText;
+    public UnityEngine.UI.Text HighscoreText;
     [Range(0.1f, 5f)]
     public float ScoreTextDuration = 1f;
 
@@ -22,18 +23,25 @@ public class EndingAnimation : MonoBehaviour {
 
     bool canRetry;
     string originalScoreText;
+    string originalHighscoreText;
 
     public void Initialize() {
         Blackness.fillClockwise = false;
         Blackness.fillAmount = 0;
-        var finalText = GetOriginalText();
-        finalText = finalText.Replace("%t", scoreManager.TimeAlive.ToString("0.00"));
-        finalText = finalText.Replace("%w", scoreManager.WorldsEncountered.ToString("0"));
-        ScoreText.text = finalText;
+        scoreManager.SaveScores();
+        var finalScoreText = originalScoreText ?? (originalScoreText = ScoreText.text);
+        finalScoreText = finalScoreText.Replace("%t", scoreManager.TimeAlive.ToString("0.00"));
+        finalScoreText = finalScoreText.Replace("%w", scoreManager.WorldsEncountered.ToString("0"));
+        ScoreText.text = finalScoreText;
+        var finalHighscoreText = originalHighscoreText ?? (originalHighscoreText = HighscoreText.text);
+        finalHighscoreText = finalHighscoreText.Replace("%t", PlayerPrefs.GetFloat("hightime", 0).ToString("0.00"));
+        finalHighscoreText = finalHighscoreText.Replace("%w", PlayerPrefs.GetInt("highworlds", 0).ToString("0"));
+        HighscoreText.text = finalHighscoreText;
         {
             var newColor = ScoreText.color;
             newColor.a = 0;
             ScoreText.color = newColor;
+            HighscoreText.color = newColor;
         }
         {
             var newColor = RetryText.color;
@@ -41,10 +49,6 @@ public class EndingAnimation : MonoBehaviour {
             RetryText.color = newColor;
         }
         StartCoroutine(AnimateBlackness());
-    }
-
-    string GetOriginalText() {
-        return originalScoreText ?? (originalScoreText = ScoreText.text);
     }
 
     void Update() {
@@ -76,6 +80,7 @@ public class EndingAnimation : MonoBehaviour {
             var newColor = ScoreText.color;
             newColor.a += Time.deltaTime / ScoreTextDuration;
             ScoreText.color = newColor;
+            HighscoreText.color = newColor;
             yield return new WaitForEndOfFrame();
         }
         {
