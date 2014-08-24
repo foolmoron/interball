@@ -9,7 +9,10 @@ public class Bumper : MonoBehaviour {
     [Range(0, 360)]
     public float DirectionOffset = 0;
 
+    FrameShake frameShake;
+
 	void Start() {
+	    frameShake = FindObjectOfType<FrameShake>();
 	}
 	
 	void Update() {
@@ -26,6 +29,9 @@ public class Bumper : MonoBehaviour {
                     var transformedDirection = transform.TransformDirection(Mathf.Cos(realOffset), Mathf.Sin(realOffset), 0);
                     ball.SetDirectionVector(transformedDirection);
                     break;
+            }
+            if (frameShake.ShakesRemaining < 2) { // queue up 1 extra shake at most
+                frameShake.ShakesRemaining++;
             }
         }
     }
