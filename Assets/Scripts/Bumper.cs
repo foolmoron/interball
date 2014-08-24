@@ -17,10 +17,12 @@ public class Bumper : MonoBehaviour {
     [Range(0f, 1f)]
     public float GhostOriginalAlpha = 0.2f;
 
+    AudioManager audioManager;
     FrameShake frameShake;
 
-	void Start() {
-	    frameShake = FindObjectOfType<FrameShake>();
+    void Start() {
+        audioManager = FindObjectOfType<AudioManager>();
+        frameShake = FindObjectOfType<FrameShake>();
 	}
 	
 	void Update() {
@@ -41,6 +43,7 @@ public class Bumper : MonoBehaviour {
             if (frameShake.ShakesRemaining < 2) { // queue up 1 extra shake at most
                 frameShake.ShakesRemaining++;
             }
+            audioManager.PlayRandomBumperSound();
 
             var newBumper = ((GameObject)Instantiate(gameObject, transform.position, transform.rotation));
             newBumper.transform.parent = transform.parent;
