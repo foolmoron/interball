@@ -4,6 +4,10 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class EndingAnimation : MonoBehaviour {
 
+    public ScoreManager scoreManager;
+    public TimeMeter timeMeter;
+    public Ball ball;
+
     public UnityEngine.UI.Image Blackness;
     [Range(0.1f, 5f)]
     public float BlacknessDuration = 0.5f;
@@ -18,15 +22,8 @@ public class EndingAnimation : MonoBehaviour {
 
     bool canRetry;
     string originalScoreText;
-    ScoreManager scoreManager;
-    TimeMeter timeMeter;
-    Ball ball;
 
     public void Initialize() {
-        scoreManager = FindObjectOfType<ScoreManager>();
-        timeMeter = FindObjectOfType<TimeMeter>();
-        ball = FindObjectOfType<Ball>();
-
         Blackness.fillClockwise = false;
         Blackness.fillAmount = 0;
         var finalText = GetOriginalText();
@@ -43,7 +40,6 @@ public class EndingAnimation : MonoBehaviour {
             newColor.a = 0;
             RetryText.color = newColor;
         }
-
         StartCoroutine(AnimateBlackness());
     }
 
