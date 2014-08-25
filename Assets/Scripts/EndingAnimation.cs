@@ -28,6 +28,26 @@ public class EndingAnimation : MonoBehaviour {
     string originalScoreText;
     string originalHighscoreText;
 
+    void Start() {
+        Deactivate();
+    }
+
+    public void Activate() {
+        Blackness.gameObject.SetActive(true);
+        ScoreText.gameObject.SetActive(true);
+        HighscoreText.gameObject.SetActive(true);
+        RetryText.gameObject.SetActive(true);
+        enabled = true;
+    }
+
+    public void Deactivate() {
+        Blackness.gameObject.SetActive(false);
+        ScoreText.gameObject.SetActive(false);
+        HighscoreText.gameObject.SetActive(false);
+        RetryText.gameObject.SetActive(false);
+        enabled = false;
+    }
+
     public void Initialize() {
         rotatable.RotationEnabled = false;
         board.GameStarted = false;
@@ -101,7 +121,7 @@ public class EndingAnimation : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
         Blackness.fillAmount = 0;
-        gameObject.SetActive(false);
+        Deactivate();
         timeMeter.enabled = true;
         timeMeter.gameObject.SetActive(true);
         rotatable.RotationEnabled = true;

@@ -38,7 +38,7 @@ public class TimeManager : MonoBehaviour {
 	}
 
     void GameOver() {
-        EndingAnimation.gameObject.SetActive(true);
+        EndingAnimation.Activate();
         EndingAnimation.Initialize();
     }
 }
