@@ -13,3 +13,5 @@ build/
 /*.userprefs
 /*.pidb
 /*.booproj
+Assets/UnityVS/
+Assets/UnityVS.meta
