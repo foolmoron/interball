@@ -24,27 +24,23 @@ public class EndingAnimation : MonoBehaviour {
     [Range(0.1f, 5f)]
     public float RetryTextDuration = 0.5f;
 
+    Canvas canvas;
     bool canRetry;
     string originalScoreText;
     string originalHighscoreText;
 
     void Start() {
+        canvas = GetComponent<Canvas>();
         Deactivate();
     }
 
     public void Activate() {
-        Blackness.gameObject.SetActive(true);
-        ScoreText.gameObject.SetActive(true);
-        HighscoreText.gameObject.SetActive(true);
-        RetryText.gameObject.SetActive(true);
+        canvas.planeDistance = 1;
         enabled = true;
     }
 
     public void Deactivate() {
-        Blackness.gameObject.SetActive(false);
-        ScoreText.gameObject.SetActive(false);
-        HighscoreText.gameObject.SetActive(false);
-        RetryText.gameObject.SetActive(false);
+        canvas.planeDistance = 99999; // using this method to hide the canvas prevents terrible spike in font-related CPU processing when showing canvas
         enabled = false;
     }
 
