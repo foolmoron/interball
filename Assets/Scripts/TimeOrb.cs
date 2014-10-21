@@ -7,8 +7,12 @@ public class TimeOrb : MonoBehaviour {
     AudioManager audioManager;
     TimeManager timeManager;
     TimeMeter timeMeter;
+
     [Range(0, 10)]
     public float TimeBonus = 1f;
+
+    public AnimationCurve RotationAnimation;
+    float animationTime;
 
     void Start() {
         audioManager = FindObjectOfType<AudioManager>();
@@ -16,6 +20,11 @@ public class TimeOrb : MonoBehaviour {
         timeMeter = FindObjectOfType<TimeMeter>();
 	    Reset();
 	}
+
+    void Update() {
+        animationTime += Time.deltaTime;
+        transform.localRotation = Quaternion.Euler(0, 0, RotationAnimation.Evaluate(animationTime) * 360);
+    }
 
     public void Reset() {
         renderer.enabled = true;
