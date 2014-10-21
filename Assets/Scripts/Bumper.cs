@@ -40,6 +40,7 @@ public class Bumper : MonoBehaviour {
                     ball.SetDirectionVector(transformedDirection);
                     break;
             }
+            ball.SetRandomAngularVelocity();
             if (frameShake.ShakesRemaining < 2) { // queue up 1 extra shake at most
                 frameShake.ShakesRemaining++;
             }

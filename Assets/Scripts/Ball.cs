@@ -6,6 +6,10 @@ public class Ball : MonoBehaviour {
     [Range(1, 20)]
     public float Speed;
     float currentSpeed;
+    [Range(0, 1080)]
+    public float MaxAngularSpeed;
+    [Range(0, 1080)]
+    public float MinAngularSpeed;
 
     Vector3 spawnPosition;
 
@@ -21,6 +25,7 @@ public class Ball : MonoBehaviour {
 
     public void Reset() {
         transform.position = spawnPosition;
+        transform.localRotation = Quaternion.identity;
         Stop();
     }
 
@@ -32,6 +37,7 @@ public class Ball : MonoBehaviour {
     public void Move() {
         SetSpeed(Speed);
         SetDirectionVector(new Vector2(Random.value - 0.5f, Random.value - 0.5f));
+        SetRandomAngularVelocity();
     }
 
     public void SetSpeed(float speed) {
@@ -45,5 +51,10 @@ public class Ball : MonoBehaviour {
 
     public void SetDirectionVector(Vector2 direction) {
         rigidbody2D.velocity = direction.normalized * currentSpeed;
+    }
+
+    public void SetRandomAngularVelocity() {
+        var angularSpeed = (MaxAngularSpeed - MinAngularSpeed) * Random.value + MinAngularSpeed;
+        rigidbody2D.angularVelocity = Random.value >= 0.5f ? angularSpeed : -angularSpeed;
     }
 }
