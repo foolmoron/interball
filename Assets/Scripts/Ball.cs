@@ -14,10 +14,9 @@ public class Ball : MonoBehaviour {
         Reset();
     }
 
-    void Update() {
-        if (Speed != currentSpeed) {
-            SetSpeed(Speed);
-        }
+    void FixedUpdate() {
+        // fire constantly to make sure ball never gets "stuck"
+        SetSpeed(Speed);
     }
 
     public void Reset() {
