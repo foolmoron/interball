@@ -77,6 +77,12 @@ public class EndingAnimation : MonoBehaviour {
     }
 
     IEnumerator AnimateBlackness() {
+        // this toggling of the blackness is required so that it actually renders, because Unity is dumb
+        {
+            Blackness.enabled = false;
+            yield return new WaitForEndOfFrame();
+            Blackness.enabled = true;
+        }
         while (Blackness.fillAmount < 1) {
             Blackness.fillAmount += Time.deltaTime / BlacknessDuration;
             yield return new WaitForEndOfFrame();
