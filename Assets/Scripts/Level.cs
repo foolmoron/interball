@@ -5,7 +5,7 @@ using System.Collections;
 public class Level : MonoBehaviour {
 
     [Range(0, 1)]
-    public float LevelAlpha = 0.25f;
+    public float LevelAlpha = 0.5f;
     public Color LevelColor;
     Color oldLevelColor = Color.clear;
 
@@ -14,7 +14,7 @@ public class Level : MonoBehaviour {
 
     public void Reset() {
         gameObject.SetActive(true); // required to get components in children
-        LevelColor = new HSBColor(Random.value, 1, 0.784f, 1).ToColor(); // 0.784f is the value that allows all hues to be visible with white dots
+        LevelColor = new HSBColor(Random.value * 0.1f + 0.025f, 1, 0.784f, 1).ToColor(); // 0.1f + 0.025f limits colors to orangeish, 0.784f is the value that allows all hues to be visible with white dots
         var allOrbs = GetComponentsInChildren<TimeOrb>();
         for (int i = 0; i < allOrbs.Length; i++) {
             allOrbs[i].Reset();
