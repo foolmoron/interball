@@ -25,8 +25,8 @@ public class Ball : MonoBehaviour {
     }
 
     public void Stop() {
-        rigidbody2D.velocity = Vector2.zero;
-        rigidbody2D.Sleep();
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        GetComponent<Rigidbody2D>().Sleep();
     }
 
     public void Move() {
@@ -36,7 +36,7 @@ public class Ball : MonoBehaviour {
 
     public void SetSpeed(float speed) {
         currentSpeed = speed;
-        rigidbody2D.velocity = rigidbody2D.velocity.normalized * currentSpeed;
+        GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity.normalized * currentSpeed;
     }
 
     public void SetDirectionRadians(float rad) {
@@ -44,6 +44,6 @@ public class Ball : MonoBehaviour {
     }
 
     public void SetDirectionVector(Vector2 direction) {
-        rigidbody2D.velocity = direction.normalized * currentSpeed;
+        GetComponent<Rigidbody2D>().velocity = direction.normalized * currentSpeed;
     }
 }

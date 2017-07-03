@@ -67,7 +67,7 @@ public class EndingAnimation : MonoBehaviour {
     }
 
     void Update() {
-        if (ball.rigidbody2D.velocity != Vector2.zero)
+        if (ball.GetComponent<Rigidbody2D>().velocity != Vector2.zero)
             ball.Reset();
         if (canRetry && Input.GetMouseButtonDown(0)) {
             canRetry = false;

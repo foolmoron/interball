@@ -18,15 +18,15 @@ public class TimeOrb : MonoBehaviour {
 	}
 
     public void Reset() {
-        renderer.enabled = true;
-        collider2D.enabled = true;
+        GetComponent<Renderer>().enabled = true;
+        GetComponent<Collider2D>().enabled = true;
     }
 
     void OnTriggerEnter2D(Collider2D other) {
         audioManager.PlayRandomTimeOrbSound();
         timeManager.CurrentTimeLeft += TimeBonus;
         timeMeter.Flash();
-        renderer.enabled = false;
-        collider2D.enabled = false;
+        GetComponent<Renderer>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
     }
 }

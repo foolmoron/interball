@@ -47,7 +47,7 @@ public class Bumper : MonoBehaviour {
 
             var newBumper = ((GameObject)Instantiate(gameObject, transform.position, transform.rotation));
             newBumper.transform.parent = transform.parent;
-            Destroy(newBumper.collider2D);
+            Destroy(newBumper.GetComponent<Collider2D>());
             Destroy(newBumper.GetComponent<Bumper>());
             var bumperGhost = newBumper.AddComponent<BumperGhost>();
             bumperGhost.GhostDuration = GhostDuration;
